@@ -1,0 +1,271 @@
+/*
+ * Tangerine Cobalt skin, loaded last.
+ *
+ *   palette     ice #fffaf4 · glacier blue #1b45d6 · slate #0b1533 · coral #ff6a1a
+ *   motion      blur-to-focus: content sharpens out of a soft blur as it scrolls in
+ *   hover       spotlight: a cool light follows the cursor across cards, with a glacier ring
+ *   atmosphere  a faint dot grid that drifts slowly with scroll
+ *   type        large headings arrive as a glacier outline that fills with ink
+ *
+ * Visual only: no layout, sizes, content or order change. Colours are remapped at build time
+ * (scripts/variants/tangerine.mjs); classes prefixed tg- are added by scripts/tangerine.js.
+ */
+
+:root {
+  --tg-ice: #fffaf4;
+  --tg-ice2: #fbf0e2;
+  --tg-glacier: #1b45d6;
+  --tg-glacier-deep: #1536a8;
+  --tg-slate: #0b1533;
+  --tg-coral: #ff6a1a;
+
+  --tg-fg: #0b1533;
+  --tg-fg2: #1c2850;
+  --tg-white: #0b1533;
+  --tg-muted: #5a6585;
+  --tg-accent: #1536a8;
+  --tg-accent2: #12309a;
+  --tg-deep: #12309a;
+  --tg-hot: #d9480f;
+  --tg-line: rgba(11, 21, 51, .14);
+  --tg-line2: rgba(11, 21, 51, .3);
+  --tg-glow: #1b45d6;
+
+  --tg-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* ---------- base ---------------------------------------------------------- */
+html { scrollbar-color: var(--tg-glacier) var(--tg-ice2); }
+body { background-color: var(--tg-ice); color: var(--tg-fg); }
+::selection { background: rgba(27, 69, 214, .28); color: var(--tg-slate); }
+:focus-visible { outline: 2px solid var(--tg-glacier) !important; outline-offset: 3px; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--tg-ice2); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--tg-glacier), #ff9a52); border: 3px solid var(--tg-ice2); border-radius: 12px; }
+hr { border-color: var(--tg-line) !important; }
+blockquote { border-left-color: var(--tg-glacier) !important; }
+
+/* ---------- typography: outline-to-fill headings ---------------------------- */
+/* the stroke and fill are paint only: glyph metrics and line boxes never change */
+.tg-ink { -webkit-text-stroke-width: 1.2px; }
+@keyframes tg-ink {
+  0%, 30% { -webkit-text-fill-color: transparent; -webkit-text-stroke-color: var(--tg-glacier); }
+  100%    { -webkit-text-fill-color: currentColor; -webkit-text-stroke-color: transparent; }
+}
+
+/* body links: a cool underline that draws in */
+.tg-prose-link {
+  text-decoration: none !important;
+  background-image: linear-gradient(var(--tg-glacier), var(--tg-glacier)), linear-gradient(var(--tg-line2), var(--tg-line2)) !important;
+  background-repeat: no-repeat !important;
+  background-size: 0% 1.5px, 100% 1px !important;
+  background-position: 0 100%, 0 100% !important;
+  transition: background-size .45s var(--tg-ease), color .2s;
+}
+.tg-prose-link:hover { color: var(--tg-accent) !important; background-size: 100% 1.5px, 100% 1px !important; }
+.hwf-col-list a, #hwnav .hw-list > li > a, #hwnav .hw-link { transition: color .2s, text-shadow .3s; }
+.hwf-col-list a:hover, #hwnav .hw-list > li > a:hover, #hwnav .hw-link:hover { color: var(--tg-glacier) !important; text-shadow: 0 0 14px rgba(27, 69, 214, .35); }
+
+/* ---------- buttons: tangerineed lift ------------------------------------------- */
+.tg-btn, #hwnav .hw-btn, .elementor-button, .hs-button, input[type="submit"], button[type="submit"] {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 8px 22px -14px color-mix(in srgb, var(--tg-glow) 85%, transparent) !important;
+  transition: translate .35s var(--tg-ease), box-shadow .35s var(--tg-ease), filter .3s, background-color .25s, color .25s !important;
+}
+.tg-btn:hover, #hwnav .hw-btn:hover, .elementor-button:hover, .hs-button:hover, input[type="submit"]:hover, button[type="submit"]:hover {
+  translate: 0 -2px;
+  filter: saturate(1.08) brightness(1.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 0 0 3px color-mix(in srgb, var(--tg-glow) 25%, transparent),
+    0 16px 30px -14px color-mix(in srgb, var(--tg-glow) 90%, transparent) !important;
+}
+.tg-btn:active, .elementor-button:active, input[type="submit"]:active, button[type="submit"]:active { translate: 0 0; filter: brightness(.96); }
+.tg-btn svg, .tg-btn i, .elementor-button svg, .elementor-button i { transition: translate .35s var(--tg-ease); }
+.tg-btn:hover svg, .tg-btn:hover i, .elementor-button:hover svg, .elementor-button:hover i { translate: 3px 0; }
+.tg-pill { transition: box-shadow .3s var(--tg-ease), background-color .3s, color .3s; }
+a.tg-pill:hover, button.tg-pill:hover { box-shadow: 0 0 0 2px rgba(27, 69, 214, .5) !important; }
+
+/* ---------- form fields ----------------------------------------------------- */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([type="file"]):not([type="image"]),
+textarea, select { transition: box-shadow .3s var(--tg-ease), border-color .3s; caret-color: var(--tg-glacier); }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="hidden"]):not([type="file"]):not([type="image"]):focus,
+textarea:focus, select:focus {
+  outline: 0 !important; border-color: var(--tg-glacier) !important;
+  box-shadow: 0 0 0 4px rgba(27, 69, 214, .16) !important;
+}
+
+/* ---------- cards: spotlight ------------------------------------------------- */
+.tg-card {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 14px 30px -26px rgba(11, 21, 51, .45);
+  transition: box-shadow .45s var(--tg-ease), border-color .4s;
+}
+.tg-card.tg-hot:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 0 0 1px rgba(27, 69, 214, .5), 0 0 26px -8px rgba(27, 69, 214, .45),
+    0 26px 44px -26px rgba(11, 21, 51, .4) !important;
+}
+/* the light follows the pointer (tg-spot, positions from tangerine.js) */
+.tg-card.tg-spot {
+  background-image: radial-gradient(380px circle at var(--tg-mx, 50%) var(--tg-my, 50%), rgba(27, 69, 214, .13), rgba(255, 154, 82, .05) 45%, transparent 70%) !important;
+}
+.tg-img { transition: filter .6s var(--tg-ease); }
+a:hover .tg-img, .tg-img:hover { filter: saturate(1.05) brightness(1.05) hue-rotate(-6deg); }
+
+/* sections drawn over dark photography keep light ink (set by tangerine.js) */
+.tg-darkzone {
+  --tg-fg: #fffaf4 !important; --tg-fg2: #f6ecdf !important; --tg-white: #fffaf4 !important; --tg-muted: #d9d2c8 !important;
+  --tg-accent: #9fb6ff !important; --tg-accent2: #d6e0ff !important; --tg-deep: #d6e0ff !important; --tg-hot: #ffa066 !important;
+  --tg-line: rgba(255, 250, 244, .2) !important; --tg-line2: rgba(255, 250, 244, .36) !important; --tg-glow: #9fb6ff !important;
+}
+/* background film is tangerineed into a pale ice glow so ink reads on it */
+.tg-sunwash { filter: invert(1) hue-rotate(0deg) saturate(.9) brightness(1.06) contrast(.78) !important; opacity: .6; }
+.tg-sunwash ~ canvas { filter: invert(.1) hue-rotate(0deg) saturate(1.2); }
+
+/* white logos on transparent backgrounds are inked onto the ice */
+.tg-inv, .tg-inv-force { filter: brightness(0) opacity(.75) !important; }
+.tg-darkzone .tg-inv, .tg-darkzone .tg-inv-force { filter: none !important; }
+html body .hwts.hwts.hwts { --hwts-logo-filter: brightness(0) opacity(.7) !important; --hwts-line: rgba(11, 21, 51, .12) !important; }
+
+/* ---------- site chrome ------------------------------------------------------- */
+#hwnav .hw-bar { box-shadow: 0 1px 0 var(--tg-line), 0 10px 30px -24px rgba(11, 21, 51, .45) !important; backdrop-filter: saturate(1.2); }
+#hwnav .hw-panel { box-shadow: 0 0 0 1px var(--tg-line), 0 40px 70px -34px rgba(11, 21, 51, .5) !important; }
+.hw-ann { box-shadow: inset 0 -1px 0 rgba(11, 21, 51, .12); }
+.hwf-soc { transition: box-shadow .35s var(--tg-ease), color .2s; }
+.hwf-soc:hover { box-shadow: 0 0 0 2px var(--tg-glacier), 0 0 18px -4px rgba(27, 69, 214, .6); }
+
+/* ---------- reveals: blur-to-focus ----------------------------------------------- */
+.tg-wait { opacity: 0 !important; }
+.tg-in { animation-duration: 1s; animation-timing-function: var(--tg-ease); animation-fill-mode: both; animation-delay: var(--tg-d, 0ms); }
+.tg-in.tg-fx-rise { animation-name: tg-focus; animation-duration: 1.2s; }
+.tg-in.tg-fx-up { animation-name: tg-focus-up; }
+.tg-in.tg-fx-photo { animation-name: tg-focus-photo; animation-duration: 1.2s; }
+.tg-in.tg-fx-rise.tg-ink { animation-name: tg-focus, tg-ink; animation-duration: 1.2s, 1.2s; }
+
+@keyframes tg-focus {
+  from { opacity: 0; filter: blur(14px); scale: .985; }
+  to   { opacity: 1; filter: blur(0); scale: 1; }
+}
+@keyframes tg-focus-up {
+  from { opacity: 0; filter: blur(10px); translate: 0 18px; }
+  to   { opacity: 1; filter: blur(0); translate: 0 0; }
+}
+@keyframes tg-focus-photo {
+  from { opacity: 0; filter: blur(18px) saturate(.4) brightness(1.15); scale: 1.04; }
+  to   { opacity: 1; filter: none; scale: 1; }
+}
+.tg-hero-rise { animation: tg-focus 1.4s var(--tg-ease) .1s both; }
+.tg-hero-rise.tg-ink { animation: tg-focus 1.4s var(--tg-ease) .1s both, tg-ink 1.4s var(--tg-ease) .1s both; }
+
+/* ---------- dot grid (injected, aria-hidden, non-interactive) ----------------------- */
+.tg-grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 2147482000;
+  background-image: radial-gradient(circle at 1px 1px, rgba(21, 54, 168, .22) 1px, transparent 1.6px);
+  background-size: 26px 26px;
+  background-position: 0 var(--tg-par, 0px);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, .9), rgba(0, 0, 0, .35));
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, .9), rgba(0, 0, 0, .35));
+  opacity: .55;
+}
+.tg-progress {
+  position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 2147483000;
+  background: linear-gradient(90deg, var(--tg-glacier), #ff9a52, var(--tg-coral));
+  transform-origin: 0 50%; transform: scaleX(var(--tg-progress, 0)); pointer-events: none;
+}
+
+@media (max-width: 767px) { .tg-grain { opacity: .4; background-size: 22px 22px; } }
+@media (prefers-reduced-motion: reduce) {
+  .tg-in, .tg-hero-rise { animation: none !important; }
+  .tg-wait { opacity: 1 !important; }
+  .tg-ink { -webkit-text-stroke-width: 0; }
+  .tg-card, .tg-btn, .tg-img, .tg-pill { transition: none !important; }
+}
+@media print {
+  .tg-grain, .tg-progress { display: none !important; }
+  .tg-wait { opacity: 1 !important; }
+}
+
+/* =====================================================================================
+ * Tangerine Cobalt effects. These override the shared base above; everything is paint only
+ * (opacity, transforms during one-off animations, masks, shadows, backgrounds), so no box changes size or place.
+ *   motion      headings skew up out of a mask; cards flip up in 3D; photos reveal with a shimmer sweep
+ *   hover       jelly wobble on buttons; wavy link underlines; card icons float up
+ *   click       a confetti burst from every button
+ *   atmosphere  soft sunburst rays turning slowly behind the page
+ * ===================================================================================== */
+:root { --tg-tangerine: #ff6a1a; --tg-cobalt: #1b45d6; --tg-sun: #ffb800; }
+::selection { background: #ff6a1a; color: #fff; }
+
+/* motion: skew-up headings */
+.tg-in.tg-fx-rise { animation-duration: .95s; animation-timing-function: cubic-bezier(.2, .9, .25, 1); }
+@keyframes tg-focus {
+  from { opacity: 0; transform: translateY(34px) skewY(5deg); clip-path: inset(0 -5% 100% -5%); }
+  to   { opacity: 1; transform: none; clip-path: inset(-15% -5% -25% -5%); }
+}
+.tg-hero-rise { animation: tg-focus 1.2s cubic-bezier(.2, .9, .25, 1) .1s both; }
+/* motion: 3D flip-up cards */
+.tg-in.tg-fx-up { animation-duration: .9s; animation-timing-function: cubic-bezier(.2, .9, .25, 1); }
+@keyframes tg-focus-up {
+  from { opacity: 0; transform: perspective(900px) rotateX(24deg) translateY(30px); transform-origin: 50% 100%; }
+  to   { opacity: 1; transform: perspective(900px) rotateX(0) translateY(0); transform-origin: 50% 100%; }
+}
+/* motion: photos reveal with a shimmer sweep (a moving mask) */
+@keyframes tg-focus-photo {
+  from { opacity: 0; -webkit-mask-image: linear-gradient(100deg, #000 30%, rgba(0, 0, 0, .25) 50%, #000 70%); -webkit-mask-size: 300% 100%; -webkit-mask-position: 100% 0; filter: brightness(1.25); }
+  30%  { opacity: 1; }
+  to   { opacity: 1; -webkit-mask-image: linear-gradient(100deg, #000 30%, rgba(0, 0, 0, .25) 50%, #000 70%); -webkit-mask-size: 300% 100%; -webkit-mask-position: 0 0; filter: none; }
+}
+
+/* hover: jelly wobble on buttons */
+.tg-btn:hover, #hwnav .hw-btn:hover, .elementor-button:hover, .hs-button:hover, input[type="submit"]:hover, button[type="submit"]:hover {
+  animation: tg-jelly .7s ease 1;
+  box-shadow: 0 0 0 3px rgba(255, 106, 26, .28), 0 14px 26px -12px rgba(255, 106, 26, .8) !important;
+}
+@keyframes tg-jelly {
+  0%   { scale: 1 1; }
+  30%  { scale: 1.12 .88; }
+  45%  { scale: .92 1.08; }
+  60%  { scale: 1.05 .95; }
+  75%  { scale: .98 1.02; }
+  100% { scale: 1 1; }
+}
+
+/* hover: wavy link underlines */
+.tg-prose-link:hover, .hwf-col-list a:hover {
+  background-image: none !important;
+  text-decoration: underline wavy #ff6a1a !important; text-decoration-thickness: 1.5px !important; text-underline-offset: 4px;
+}
+
+/* hover: cards lift, icons float */
+.tg-card.tg-hot:hover {
+  translate: 0 -5px;
+  box-shadow: 0 0 0 2px rgba(27, 69, 214, .35), 0 22px 40px -20px rgba(27, 69, 214, .55), 0 6px 0 -1px rgba(255, 106, 26, .9) !important;
+}
+.tg-card.tg-hot svg { transition: translate .45s cubic-bezier(.34, 1.6, .5, 1), rotate .45s cubic-bezier(.34, 1.6, .5, 1); }
+.tg-card.tg-hot:hover svg { translate: 0 -5px; rotate: -8deg; }
+
+/* click: confetti burst (injected by tangerine.js, aria-hidden, non-interactive) */
+.tg-confetti { position: fixed; inset: 0; pointer-events: none; z-index: 2147483001; overflow: hidden; }
+.tg-bit {
+  position: absolute; width: 8px; height: 12px; margin: -6px 0 0 -4px; border-radius: 2px;
+  animation: tg-bit .9s cubic-bezier(.2, .8, .3, 1) forwards;
+}
+.tg-bit.tg-bit-round { width: 8px; height: 8px; border-radius: 50%; }
+@keyframes tg-bit {
+  from { opacity: 1; translate: 0 0; rotate: 0deg; }
+  70%  { opacity: 1; }
+  to   { opacity: 0; translate: var(--dx) calc(var(--dy) + 60px); rotate: var(--r); }
+}
+
+/* atmosphere: soft sunburst rays turning slowly, instead of the dot grid */
+.tg-grain {
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0, transparent 75%);
+  mask-image: radial-gradient(circle at 50% 0%, #000 0, transparent 75%);
+  opacity: 1; mix-blend-mode: multiply;
+  background: repeating-conic-gradient(from var(--tg-rot) at 50% -10%, rgba(255, 154, 82, .10) 0deg 7deg, transparent 7deg 15deg) !important;
+  animation: tg-rays 120s linear infinite;
+}
+@property --tg-rot { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes tg-rays { to { --tg-rot: 360deg; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .tg-grain, .tg-btn:hover, .elementor-button:hover { animation: none !important; }
+  .tg-confetti { display: none; }
+}
+@media print { .tg-confetti { display: none !important; } }
